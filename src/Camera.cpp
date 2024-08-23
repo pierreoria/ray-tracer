@@ -130,7 +130,29 @@ public:
                 vetor objeto_color = objetos[ind]->getColor();
                 
                 final_color =  final_color + (objetos[ind]->getKa().getX() * ambient_light); // componente ambiente
-                
+                // --
+
+                vetor objeto_color = getCheckerboardColor(intersection);
+
+                final_color = final_color + (objetos[ind]->getKa().getX() * ambient_light); // componente ambiente
+
+                vetor view_dir = r.getDirection().normalizar();
+                vetor view_spec = (r.getOrigin() - intersection).normalizar();
+                for (const auto& light : lights) {
+                    vetor light_dir = (light.getPosition() - intersection).normalizar();
+
+                    vetor reflect_dir = reflect(light_dir, normal);
+
+                    // Componente difusa
+                    double diff = std::max(light_dir.produto_escalar(normal), 0.0);
+                    final_color = final_color + ((objetos[ind]->getKd().getX() * objeto_color) * diff);
+
+                    // Componente especular
+                    double spec = pow(std::max(view_spec.produto_escalar(reflect_dir), 0.0), objetos[ind]->getShininess());
+                    final_color = final_color + (light.getColor() * spec) * (objetos[ind]->getKs().getX());
+                }
+
+                // --
                 vetor view_dir = r.getDirection().normalizar();
                 vetor view_spec = (r.getOrigin() - intersection).normalizar();
                 for (const auto& light : lights) {

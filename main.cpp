@@ -13,56 +13,39 @@
 #include "src/ObjReader.cpp"
 #include "src/Mesh.cpp"
 #include "src/Colormap.cpp"
+#include "src/Transformations.cpp"
+#include "src/Texture.cpp"
 
 using namespace std;
-
-point calcular_centroide(std::vector<object*>& triangulos) {
-    double somaX = 0;
-    double somaY = 0;
-    double somaZ = 0;
-    int numTriangulos = triangulos.size();
-    point centro;
-    for (int i = 0; i < numTriangulos; i++) {
-        centro = triangulos[i]->getPonto();
-        somaX += centro.getX();
-        somaY += centro.getY();
-        somaZ += centro.getZ();
-    }
-
-    double centroComumX = somaX / numTriangulos;
-    double centroComumY = somaY / numTriangulos;
-    double centroComumZ = somaZ / numTriangulos;
-
-    return point(centroComumX, centroComumY, centroComumZ);
-}
-
-void rotacao(vector<object*>& triangulos, double angle, char eixo) {
-    point distancia = calcular_centroide(triangulos);
-    distancia.print();
-    for (int i = 0; i < triangulos.size(); i++) {
-        triangulos[i]->rotacao(angle, eixo, distancia);
-    }
-}
-
-void translacao(vector<object*>& triangulos, double dx, double dy, double dz) {
-    for (int i = 0; i < triangulos.size(); i++) {
-        triangulos[i]->translacao(dx, dy, dz);
-    }
-}
-
-void cisalhamento(vector<object*>& triangulos, double shXY, double shXZ, double shYX, double shYZ, double shZX, double shZY) {
-    for (int i = 0; i < triangulos.size(); i++) {
-        triangulos[i]->cisalhamento(shXY, shXZ, shYX, shYZ, shZX, shZY);
-    }
-}
 
 
 int main() {
     ios::sync_with_stdio(false); cin.tie(NULL);
 
-    colormap cmap;
+    //-------------
 
-    objReader reader("./input/mamaco.obj", cmap);
+// Create a marble texture
+marble_texture* marbleTex = new marble_texture(5.0); // scale = 5.0
+
+// Set the texture of the sphere
+sphere->setTexture(marbleTex);
+
+// Add the sphere to your scene
+objetos.push_back(sphere);
+
+
+    // ----------
+
+
+
+
+
+
+
+
+
+
+
 
 
     point pos_cam(6,2,0);

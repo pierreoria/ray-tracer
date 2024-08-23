@@ -11,6 +11,10 @@
 #include "Light.cpp"
 #include "Perlin.cpp"
 
+class texture {
+	public:
+	virtual vetor value(double u, double v, vetor& p) const = 0;
+};
 
 class marble_texture : public texture {
     public:
@@ -18,10 +22,10 @@ class marble_texture : public texture {
     float scale;
     marble_texture() {}
     marble_texture(double x) {scale = x;}
-    virtual vetor value(double u, double v,vetor& p) const{
+    virtual vetor value(double u, double v,vetor& p) const override{
         return vetor(1,1,1)*0.5*(1 + sin(scale*p.getZ() + 10.0 * noise.turb(p))); 
     }
-}
+};
 
 
 #endif
